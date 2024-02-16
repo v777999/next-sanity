@@ -32,3 +32,8 @@ export default async function RootLayout({
     </html>
   )
 }
+
+const revalidate = 60
+const query = groq`*[_type == "project] {_id, _createdAt, name, "slug": slug.current, "image": image.asset->url, url, content}`
+const data = await client.fetch(query, {next: {revalidate}});
+return data;
